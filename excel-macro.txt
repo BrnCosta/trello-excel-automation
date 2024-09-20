@@ -1,0 +1,43 @@
+Sub SendEmail()
+    Dim AutomationPath As String
+    Dim TrelloEmail As String
+    Dim SenderEmail As String
+    Dim AppPass As String
+    
+    AutomationPath = ""
+    TrelloEmail = ""
+    SenderEmail = ""
+    AppPass = ""
+    
+    ExecuteAutomationExe AutomationPath, TrelloEmail, SenderEmail, AppPass
+End Sub
+
+Sub ExecuteAutomationExe(AutomationFolderPath, TrelloEmail, SenderEmail, AppPass)
+    Dim SelectedRange As String
+    SelectedRange = Selection.Address(False, False)
+    
+    Dim WorkbookPath As String
+    WorkbookPath = Application.ActiveWorkbook.FullName
+    
+    Dim SheetName As String
+    SheetName = ActiveSheet.Name
+    
+    Dim Args As String
+    Dim AutomationExePath As String
+    Dim AutomationWithArgs As String
+    
+    AutomationExePath = AutomationFolderPath & "\trello-excel-automation.exe"
+    
+    Args = " -e ""{0}"" -p ""{1}"" -t ""{2}"" -b ""{3}"" -w ""{4}"" -s ""{5}"" "
+    
+    Args = Replace(Args, "{0}", SenderEmail)
+    Args = Replace(Args, "{1}", AppPass)
+    Args = Replace(Args, "{2}", TrelloEmail)
+    Args = Replace(Args, "{3}", WorkbookPath)
+    Args = Replace(Args, "{4}", SheetName)
+    Args = Replace(Args, "{5}", SelectedRange)
+    
+    AutomationWithArgs = AutomationExePath & Args
+    
+    Call Shell(AutomationWithArgs, vbNormalFocus)
+End Sub
