@@ -3,7 +3,7 @@ name: Generate Python Exe
 on: [push]
 
 jobs:
-  build:
+  BuildExe:
     runs-on: windows-latest
     
     steps:
@@ -34,7 +34,6 @@ jobs:
           release_name: "Release ${{ github.ref_name }}"
           draft: false
           prerelease: false
-          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
