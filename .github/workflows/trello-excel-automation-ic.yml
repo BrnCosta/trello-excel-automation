@@ -44,3 +44,5 @@ jobs:
           asset_path: ${{ runner.temp }}/trello-excel-automation.exe
           asset_name: trello-excel-automation.exe
           asset_content_type: application/octet-stream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
