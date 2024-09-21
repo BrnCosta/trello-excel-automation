@@ -26,8 +26,22 @@ jobs:
       - name: Generate EXE
         run: pyinstaller main.py -F --distpath ${{ runner.temp }} -n trello-excel-automation
 
-      - name: Upload EXE as Artifact
-        uses: actions/upload-artifact@v3
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
         with:
-          name: trello-excel-automation
-          path: ${{ runner.temp }}/trello-excel-automation.exe
+          tag_name: ${{ github.ref_name }}
+          release_name: "Release ${{ github.ref_name }}"
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload EXE to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ runner.temp }}/trello-excel-automation.exe
+          asset_name: trello-excel-automation.exe
+          asset_content_type: application/octet-stream
