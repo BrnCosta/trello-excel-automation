@@ -24,4 +24,10 @@ jobs:
           python -m pip install -r requirements.txt
 
       - name: Generate EXE
-        run: pyinstaller main.py -F -n trello-excel-automation
+        run: pyinstaller main.py -F --distpath ${{ runner.temp }} -n trello-excel-automation
+
+      - name: Upload EXE as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: trello-excel-automation
+          path: ${{ runner.temp }}/trello-excel-automation.exe
