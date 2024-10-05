@@ -1,4 +1,4 @@
-import smtplib, ssl, argparse, openpyxl
+import smtplib, ssl, argparse, openpyxl, sys
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -98,7 +98,7 @@ def validate_args(args):
 def print_press_to_continue(exit_code, message = ''):
     print(message)
     input('\n\nPress any key to continue...')
-    exit(exit_code)
+    sys.exit(exit_code)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='Excel Automation to Trello Board', 
@@ -113,14 +113,14 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--selection', type=str, help='Worksheet selection (Ex.: A1:F10)')
 
     args = parser.parse_args()
-    print('Arguments:', args)
+    print('\nArguments:', args)
 
     validated = validate_args(args)
 
     if not validated:
         print_press_to_continue(1, f'Args are not valid. Please verify!')
 
-    print('Reading worksheet...')
+    print('\nReading worksheet...')
     selection_data = read_worksheet(args.workbook, args.worksheet, args.selection)
 
     if selection_data is None:
